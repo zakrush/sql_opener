@@ -1,63 +1,44 @@
 import requests
 import re
 import colorama
-from validator.valid_checkers import url_validator
+from validator.valid_checkers import url_validator, check_res, find_pattern
+import exploit
 
 colorama.init(autoreset=True)
 
 
-def check_request(site):
-    """
-    Checking response of site.
-    :param site: given url with payload
-    :return: turple. True or False(True if request return Exeption or 5** and 404 response) and result of request
-    """
-    try:
-        res = requests.get(site)
-    except Exception as e:
-        return True, e
-    else:
-        if 500 <= res.status_code <= 526 or res.status_code == 404:
-            return True, res
-        else:
-            return False, res
-
-
-def printer(text):
-    """For printing data about site response and Vulnarability"""
-    print(text)
-
-
-def search_vuln(site, is_print=True):
+def search_vuln(site, is_print=True, is_pattern=False):
     """
     Checking site for SQL Injection Vulnarability
+    :param is_pattern: enabling finding tag of output
     :param site: Url for checking. e.g. http://example.org/searcher.php?id=1
     :param is_print: print or not result. Default is true
     :return: is_vuln and msg
     """
     check_site = url_validator(site)
     is_vuln, is_err = False, False
-    msg = ''
+    msg, pattern = '', ''
     if check_site:
         payloads = ["'", '"']
 
         # cheking every payload
         for payload in payloads:
-            is_err, res = check_request(site + payload)
-            # checking result of request. Exeption or not
-            if type(res) is not requests.models.Response:
-                msg = f'\033[0;31mERROR: {site}: {res}'
+            chk_res = check_res(site + payload)
+            # checking result of request with payload. If check_res return oly one argunemt it give Exception
+            if len(chk_res) == 4:
+                is_err, msg = True, f'\033[0;31mERROR: {site}: {chk_res[2]}'
                 break
+            elif len(chk_res) == 3:
+                is_err, msg = True, f'\033[0;31m{site} return {chk_res[1].status_code}'
+                break
+            # if not 5** or 4** error search error
             else:
-                if is_err:
-                    print(f'\033[0;31m{site} return {res.status_code}')
+                if re.search("SQL syntax", chk_res[0].text) is not None:
+                    msg = f"{site}   ===>  \033[0;32mVulnerable by {payload}"
+                    is_vuln = True
+                    if is_pattern:
+                        pattern = find_pattern(chk_res[0])
                     break
-                # if not 5** or 404 error search error
-                else:
-                    if re.search("SQL syntax", res.text) is not None:
-                        msg = f"{site}   ===>  \033[0;32mVulnerable by {payload}"
-                        is_vuln = True
-                        break
         if not (is_vuln or is_err):
             msg = f"{site}  ===>  \033[0;35mNot Vulnerable!"
 
@@ -65,8 +46,8 @@ def search_vuln(site, is_print=True):
         msg = f'\033[0;31mERROR: {site}  is not valid!'
     # printing result if needed.
     if is_print:
-        printer(msg)
-    return is_vuln, msg
+        print(msg)
+    return is_vuln, msg, pattern
 
 
 def mass_search(file):
@@ -78,6 +59,7 @@ def mass_search(file):
         print(e)
 
 
-# search_vuln('http://fdsafafaa.com/')
-# search_vuln('http://leettime.net/sqlninja.com/tasks/basic_ch2.php?id=1')
-# mass_search('/home/dmitriy/Pentest_Python/sql_opener/sites.txt')
+if __name__ == "__main__":
+    # search_vuln('http://fdsafafaa.com/')
+    # search_vuln('http://leettime.net/sqlninja.com/tasks/basic_ch2.php?id=1')
+    mass_search('/home/dmitriy/Pentest_Python/sql_opener/sites.txt')

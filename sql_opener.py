@@ -1,4 +1,5 @@
 import checker.searcher as search
+from exploit.exploiting import manual_exploit
 
 logo = "\033[0;35m" + r'''
   ____   ___  _        ___  ____  _____ _   _ _____ ____  
@@ -30,3 +31,8 @@ elif main_option == '1':
         search.search_vuln(input("Enter url: "))
     elif opt_srch == "2":
         search.mass_search(input("Enter the path to the file with the URLs: "))
+elif main_option == "2":
+    manual_exploit(input("Enter host: "))
+else:
+    print('Enter correct option')
+    exit()
