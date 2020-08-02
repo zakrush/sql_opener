@@ -20,19 +20,24 @@ seacher_menu = '''
 2. Mass check
 '''
 print('\n' + menu + '\n')
-main_option = input("Select option: ")
+try:
+    main_option = input("Select option: ")
 
-if main_option == '0':
-    exit()
-elif main_option == '1':
-    print('\n' + seacher_menu + '\n')
-    opt_srch = input("Select option: ")
-    if opt_srch == "1":
-        search.search_vuln(input("Enter url: "))
-    elif opt_srch == "2":
-        search.mass_search(input("Enter the path to the file with the URLs: "))
-elif main_option == "2":
-    manual_exploit(input("Enter host: "))
-else:
-    print('Enter correct option')
-    exit()
+    if main_option == '0':
+        exit()
+    elif main_option == '1':
+        print('\n' + seacher_menu + '\n')
+        opt_srch = input("Select option: ")
+        if opt_srch == "1":
+            search.search_vuln(input("Enter url: "))
+        elif opt_srch == "2":
+            search.mass_search(input("Enter the path to the file with the URLs: "))
+    elif main_option == "2":
+        manual_exploit(input("Enter host: "))
+    else:
+        print('Enter correct option')
+        exit()
+except EOFError:
+    print("User ended the work")
+except KeyboardInterrupt:
+    print("\nTerminal ended the work")
