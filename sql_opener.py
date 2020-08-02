@@ -19,11 +19,11 @@ seacher_menu = '''
 2. Mass check
 '''
 print('\n' + menu + '\n')
-opt1 = input("Select option: ")
+main_option = input("Select option: ")
 
-if opt1 == '0':
+if main_option == '0':
     exit()
-elif opt1 == '1':
+elif main_option == '1':
     print('\n' + seacher_menu + '\n')
     opt_srch = input("Select option: ")
     if opt_srch == "1":
