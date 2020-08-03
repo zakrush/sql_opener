@@ -63,4 +63,3 @@ if __name__ == "__main__":
     search_vuln('https://en7-vpr.sdamgia.ru/test?id=1"')
     # search_vuln('http://leettime.net/sqlninja.com/tasks/basic_ch2.php?id=1')
     # mass_search('sites.txt')
-
