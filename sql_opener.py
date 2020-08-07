@@ -1,5 +1,5 @@
 import checker.searcher as search
-import exploit.exploiting as exploit
+from exploit.exploiting import Explotation
 import colorama
 
 colorama.init(autoreset=True)
@@ -46,7 +46,7 @@ try:
             search.mass_search(input("Enter the path to the file with the URLs: "))
 
     elif main_option == "2":
-        exploit.manual_exploit(input("Enter host: "))
+        expl = Explotation(input("Enter host: ")).manual_exploit()
 
     # Auto extract
     elif main_option == "3":
@@ -58,8 +58,7 @@ try:
             if extr_option == "0":
                 exit()
             elif extr_option == "1":
-                count_result = exploit.count_columns(site, pretty=True)
-                print(count_result)
+                Explotation(site).print_columns()
     else:
         print('Enter correct option')
         exit()
