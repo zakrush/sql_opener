@@ -17,7 +17,7 @@ def search_vuln(site, is_print=True, is_pattern=False):
     """
     check_site = url_validator(site)
     is_vuln, is_err = False, False
-    msg, pattern = '', ''
+    msg, pattern, payload = '', '', ''
     if check_site:
         payloads = ["'", '"']
 
@@ -47,7 +47,7 @@ def search_vuln(site, is_print=True, is_pattern=False):
     # printing result if needed.
     if is_print:
         print(msg)
-    return is_vuln, msg, pattern
+    return is_vuln, msg, pattern, payload
 
 
 def mass_search(file):
