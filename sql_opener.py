@@ -59,6 +59,8 @@ try:
                 exit()
             elif extr_option == "1":
                 Explotation(site).print_columns()
+            elif extr_option == "2":
+                Explotation(site).database_extractor()
     else:
         print('Enter correct option')
         exit()
