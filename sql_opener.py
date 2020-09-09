@@ -65,6 +65,8 @@ try:
                 Explotation(site).print_extracted_colums_or_tables()
             elif extr_option == "4":
                 Explotation(site).print_extracted_colums_or_tables(tables=False)
+            elif extr_option == "5":
+                Explotation(site).data_extractor()
     else:
         print('Enter correct option')
         exit()
