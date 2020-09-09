@@ -61,6 +61,10 @@ try:
                 Explotation(site).print_columns()
             elif extr_option == "2":
                 Explotation(site).database_extractor()
+            elif extr_option == "3":
+                Explotation(site).print_extracted_colums_or_tables()
+            elif extr_option == "4":
+                Explotation(site).print_extracted_colums_or_tables(tables=False)
     else:
         print('Enter correct option')
         exit()
