@@ -6,13 +6,7 @@
   },
   "detail": {
     "contributors": [],
-    "diagrams": [
-      {
-        "title": "TIP_DPF",
-        "thumbnail": "./public/content/images/thumbnail.jpg",
-        "id": 0
-      }
-    ],
+    "diagrams": [],
     "reviewer": "zakrush"
   }
 }
